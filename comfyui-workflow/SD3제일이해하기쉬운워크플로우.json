@@ -1,0 +1,582 @@
+{
+  "last_node_id": 278,
+  "last_link_id": 612,
+  "nodes": [
+    {
+      "id": 252,
+      "type": "CheckpointLoaderSimple",
+      "pos": [-2210.7722072753927, -970.8911904296879],
+      "size": {
+        "0": 398.4951477050781,
+        "1": 98
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [565],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [604],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [557],
+          "shape": 3,
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": ["sd3_medium_incl_clips_t5xxlfp8.safetensors"]
+    },
+    {
+      "id": 13,
+      "type": "ModelSamplingSD3",
+      "pos": [-1747.7722072753904, -973.8911904296879],
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 565
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [591],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ModelSamplingSD3"
+      },
+      "widgets_values": [3]
+    },
+    {
+      "id": 276,
+      "type": "Reroute",
+      "pos": [-2288.9653868408186, 125.45063735961918],
+      "size": [75, 26],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 607
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "CONDITIONING",
+          "links": [608, 609],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 67,
+      "type": "ConditioningZeroOut",
+      "pos": [-2174.965386840818, 67.45063735961921],
+      "size": {
+        "0": 211.60000610351562,
+        "1": 26
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 608
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [90],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ConditioningZeroOut"
+      }
+    },
+    {
+      "id": 68,
+      "type": "ConditioningSetTimestepRange",
+      "pos": [-1923.96538684082, 63.450637359619236],
+      "size": {
+        "0": 317.4000244140625,
+        "1": 82
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 90
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [91],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ConditioningSetTimestepRange"
+      },
+      "widgets_values": [0.1, 1]
+    },
+    {
+      "id": 70,
+      "type": "ConditioningSetTimestepRange",
+      "pos": [-2099.965386840818, 190.45063735961944],
+      "size": {
+        "0": 317.4000244140625,
+        "1": 82
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 609,
+          "slot_index": 0
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [92],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ConditioningSetTimestepRange"
+      },
+      "widgets_values": [0, 0.1]
+    },
+    {
+      "id": 69,
+      "type": "ConditioningCombine",
+      "pos": [-1654.9653868408204, 212.45063735961944],
+      "size": {
+        "0": 228.39999389648438,
+        "1": 46
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning_1",
+          "type": "CONDITIONING",
+          "link": 91
+        },
+        {
+          "name": "conditioning_2",
+          "type": "CONDITIONING",
+          "link": 92
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [592],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ConditioningCombine"
+      }
+    },
+    {
+      "id": 71,
+      "type": "CLIPTextEncode",
+      "pos": [-1945.320718383789, -186.8000115966797],
+      "size": {
+        "0": 515.2418212890625,
+        "1": 134.3251495361328
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 606
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [607],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "CLIP Text Encode (Negative Prompt)",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "bad quality, poor quality, doll, disfigured, jpg, toy, bad anatomy, missing limbs, missing fingers, 3d, cgi"
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 135,
+      "type": "EmptySD3LatentImage",
+      "pos": [-2067.0908229980478, -669.4560884857177],
+      "size": [315, 106],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [593],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptySD3LatentImage"
+      },
+      "widgets_values": [1024, 1024, 1]
+    },
+    {
+      "id": 272,
+      "type": "PrimitiveNode",
+      "pos": [-1710.0442167968747, -662.6760126953125],
+      "size": [273.2559551624513, 100.36896452149551],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [597],
+          "slot_index": 0,
+          "widget": {
+            "name": "seed"
+          }
+        }
+      ],
+      "title": "Seed",
+      "properties": {
+        "Run widget replace on values": false
+      },
+      "widgets_values": [503469523905490, "randomize"]
+    },
+    {
+      "id": 275,
+      "type": "Reroute",
+      "pos": [-2076, -285],
+      "size": [75, 26],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 604
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "CLIP",
+          "links": [605, 606],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 271,
+      "type": "KSampler",
+      "pos": [-1330, -707],
+      "size": [306.5558739246585, 254.0035634900014],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 591
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 595
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 592
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 593
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "link": 597,
+          "widget": {
+            "name": "seed"
+          },
+          "slot_index": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [596],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        503469523905490,
+        "fixed",
+        28,
+        4.5,
+        "dpmpp_2m",
+        "sgm_uniform",
+        1
+      ]
+    },
+    {
+      "id": 231,
+      "type": "VAEDecode",
+      "pos": [-991, -706],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 596
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 557
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [599],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 233,
+      "type": "PreviewImage",
+      "pos": [-1301.9022180786133, -330.95775524902353],
+      "size": {
+        "0": 604.7489624023438,
+        "1": 592.15576171875
+      },
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 599
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 6,
+      "type": "CLIPTextEncode",
+      "pos": [-1947.9599804687512, -442.7999264526373],
+      "size": {
+        "0": 512.948486328125,
+        "1": 140.2584686279297
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 605
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [595],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "High Quality Photo of Koala thumbs up with evil smile, speech bubble says \"YOU ARE TENSAI\""
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    }
+  ],
+  "links": [
+    [90, 67, 0, 68, 0, "CONDITIONING"],
+    [91, 68, 0, 69, 0, "CONDITIONING"],
+    [92, 70, 0, 69, 1, "CONDITIONING"],
+    [557, 252, 2, 231, 1, "VAE"],
+    [565, 252, 0, 13, 0, "MODEL"],
+    [591, 13, 0, 271, 0, "MODEL"],
+    [592, 69, 0, 271, 2, "CONDITIONING"],
+    [593, 135, 0, 271, 3, "LATENT"],
+    [595, 6, 0, 271, 1, "CONDITIONING"],
+    [596, 271, 0, 231, 0, "LATENT"],
+    [597, 272, 0, 271, 4, "INT"],
+    [599, 231, 0, 233, 0, "IMAGE"],
+    [604, 252, 1, 275, 0, "*"],
+    [605, 275, 0, 6, 0, "CLIP"],
+    [606, 275, 0, 71, 0, "CLIP"],
+    [607, 71, 0, 276, 0, "*"],
+    [608, 276, 0, 67, 0, "CONDITIONING"],
+    [609, 276, 0, 70, 0, "CONDITIONING"]
+  ],
+  "groups": [
+    {
+      "title": "모델 불러오기",
+      "bounding": [-2233, -1055, 812, 293],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "출력",
+      "bounding": [-1323, -415, 650, 696],
+      "color": "#444",
+      "font_size": 24
+    },
+    {
+      "title": "프롬프트",
+      "bounding": [-1970, -526, 550, 246],
+      "color": "#8A8",
+      "font_size": 24
+    },
+    {
+      "title": "네거티브 프롬프트",
+      "bounding": [-1967, -265, 552, 233],
+      "color": "#A88",
+      "font_size": 24
+    },
+    {
+      "title": "잘모르는 네거티브 프롬프트 처리하기",
+      "bounding": [-2308, -9, 898, 291],
+      "color": "#b06634",
+      "font_size": 16
+    },
+    {
+      "title": "이미지크기 설정",
+      "bounding": [-2092, -750, 354, 202],
+      "color": "#a1309b",
+      "font_size": 24
+    },
+    {
+      "title": "시드값 설정",
+      "bounding": [-1724, -747, 302, 204],
+      "color": "#88A",
+      "font_size": 24
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.7513148009015777,
+      "offset": {
+        "0": 2713.251567725732,
+        "1": 1135.1863958911024
+      }
+    }
+  },
+  "version": 0.4
+}
